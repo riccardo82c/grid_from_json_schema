@@ -1,10 +1,9 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./ui/accordion"
 
-const extractLabelFromString = (str: string): string => {
-  return str.substring(str.lastIndexOf('.') + 1)
-}
+// funzione che prende la chiave dell'array flat e la trasforma tenendo solo l'ultima parte dopo il punto come label
+const extractLabelFromString = (str: string): string => str.substring(str.lastIndexOf('.') + 1)
 
-// Recursive function to flatten and display nested content
+// Funzione ricorsiva che appiattisce l'array in oggetti key: value, creando chiavi che specificano il livello di nesting
 const flattenContent = (content: any): { key: string; value: string }[] => {
   const flatten = (item: any, parentKey: string = ''): { key: string; value: string }[] => {
 
@@ -28,6 +27,7 @@ const flattenContent = (content: any): { key: string; value: string }[] => {
   return flatten(content)
 }
 
+// Funzione che scorre l'array per andare ad aggiungere un elemento LAYOUT_ITEM dove trovo un annidamento ulteriore rispetto al primo
 const addLayoutItemsOnDepthChange = (flattenedArray: { key: string; value: string }[]): { key: string; value: string }[] => {
   return flattenedArray.flatMap((item, index, array) => {
     const result = [item] // Aggiungi l'elemento corrente
@@ -53,6 +53,9 @@ const addLayoutItemsOnDepthChange = (flattenedArray: { key: string; value: strin
   })
 }
 
+/* Funzione per renderizzare un accordion, genera un content prendendo l'array flat e scorrendolo, aggiungendo label e valore dove serve
+e LAYOUT_ITEM dove serve
+ */
 export default function DetailAccordion({ title, content }: { title: string, content: unknown }) {
   // Render content as a 2-column grid if it's an array or complex object
   const renderContent = () => {
@@ -72,7 +75,7 @@ export default function DetailAccordion({ title, content }: { title: string, con
           >
             {item.key === 'LAYOUT_ITEM' ? (
               <>
-                <h3 className="font-semibold text-sm">
+                <h3 className="font-semibold text-sm shadow-sm">
                   {extractLabelFromString(item.value)}
                 </h3>
               </>
