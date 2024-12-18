@@ -2,6 +2,7 @@ import esempio_dettaglio from '../fake_data/esempio_dettaglio.json'
 import { esitoSchemaTypes } from '../types/details.d'
 import DetailAccordion from '../components/detail-accordion'
 
+/* TODO: IMPORT NEW DATA */
 
 export default function Details() {
 
